@@ -27,20 +27,51 @@ function addProduct(name, price){
 
 function removeProduct(id) {
     if(products.length === 0) {
-        throw new Error ('No such ID found');
+        throw new Error ('ID not found');
     }
 
     const product = products.find(product => product.id === id);
     if(!product) {
-        throw new Error ('No such ID found');
+        throw new Error ('ID not found');
     }
     
     products = products.filter(product => product.id !== id);
     return 'Product deleted!';
 }
 
+
+function getProducts() {
+    return products;
+  }
+  
+  function getProduct(productId) {
+    const product = products.find(product => product.id === productId);
+    if (!product) {
+        throw new Error('this product not exists');
+      
+    }
+  
+    return product;
+  }
+
+
+  const updateProduct = (productId, newName, newPrice) => {
+    const product = getProduct(productId);
+
+    if (newName !== undefined) {
+        product.name = newName;
+    }
+
+    if (newPrice !== undefined) {
+        product.price = newPrice;
+    }
+};
+
 module.exports = {
     resetProducts, 
     addProduct,
-    removeProduct
+    removeProduct,
+    getProduct,
+    getProducts,
+    updateProduct
 };

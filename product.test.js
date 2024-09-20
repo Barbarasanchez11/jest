@@ -1,4 +1,4 @@
-const { resetProducts, addProduct, removeProduct } = require('./product');
+const { resetProducts, addProduct, removeProduct, getProduct, updateProduct } = require('./product');
 
 beforeEach(() => {
     resetProducts();
@@ -26,7 +26,7 @@ describe('addProduct', () => {
 
 describe('removeProduct', () => {
     it('should throw error if product doesn`t exist', () => {
-        expect(() => removeProduct(0)).toThrow('No such ID found');
+        expect(() => removeProduct(0)).toThrow('ID not found');
     });
     
     it('should remove product by id', () => {
@@ -34,3 +34,55 @@ describe('removeProduct', () => {
         expect(removeProduct(product.id)).toBe('Product deleted!');
     });
 });
+
+
+describe('getProduct', () => {
+
+    it('should throw error if product not exists', () => {
+        expect(() => getProduct(3)).toThrow('this product not exists');
+    });
+
+    it('should show the product details', () => {
+        addProduct('stuff1', 10); 
+        const product = getProduct(1)
+        expect(getProduct(1)).toEqual({
+            id: 1,
+            name: 'stuff1',
+            price: 10
+        });
+    });
+});
+
+describe('updateProduct', () =>{
+it('should update a product', () => {
+        addProduct('stuff1', 10)
+        updateProduct(1,'stuff2', 20)
+        const upProduct= getProduct(1)
+        expect(upProduct).toEqual({
+            id: 1,
+            name: 'stuff2',
+            price: 20
+        })
+    }) 
+it('shoul fail when product is repeated', () => {
+        expect(()=> updateProduct(2, 'stuff3', 30).toThrow('product not found'))    
+    })
+})
+it('should only update the price', () => {
+    addProduct('stuff1', 10);
+    updateProduct(1, 'stuff2', 20);
+    const upProduct = getProduct(1);
+    expect(upProduct).toEqual({
+         id: 1,
+         name: 'stuff2',
+        price: 20 });
+})
+it('should only update the name', () => {
+    addProduct('stuff1', 10);
+    updateProduct(1, 'stuff2', 20);
+    const upProduct = getProduct(1);
+    expect(upProduct).toEqual({ 
+        id: 1,
+        name: 'stuff2',
+        price: 20 });
+})
