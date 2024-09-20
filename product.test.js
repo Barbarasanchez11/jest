@@ -18,7 +18,7 @@ describe('addProduct', () => {
         });
     });
 
-    it('should throw error if product exits', () => {
+    it('should throw error if product exists', () => {
         addProduct('stuff1', 10);
         expect(() => addProduct('stuff1', 10)).toThrow('this product is repeated');
     });
